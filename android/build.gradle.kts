@@ -1,8 +1,11 @@
+
+
 allprojects {
     repositories {
         google()
         mavenCentral()
     }
+   
 }
 
 val newBuildDir: Directory = rootProject.layout.buildDirectory.dir("../../build").get()
@@ -19,3 +22,4 @@ subprojects {
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
+
