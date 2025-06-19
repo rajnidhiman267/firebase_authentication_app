@@ -85,5 +85,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'fir-authentication-a0ea3.firebasestorage.app',
     measurementId: 'G-PD66J55RS7',
   );
-
 }
