@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_authentication_app/core/service/firebase/firebase_options.dart';
+
 import 'package:firebase_authentication_app/core/service/firebase/notification_service.dart';
 import 'package:firebase_authentication_app/core/view/screens/home_screen.dart';
 import 'package:firebase_authentication_app/core/view/screens/login_screen.dart';
 import 'package:firebase_authentication_app/core/viewmodel/auth_viewmodel.dart';
+import 'package:firebase_authentication_app/firebase_options.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
