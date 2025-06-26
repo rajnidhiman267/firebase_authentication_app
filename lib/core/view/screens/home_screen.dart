@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_authentication_app/core/utils/string_constants.dart';
 import 'package:firebase_authentication_app/core/widgets/custom_button_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           Text(email ?? ''),
           CustomButton(
-            text: "Logout",
+            text: StringConstants.logout,
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
             },

@@ -1,5 +1,6 @@
 class StringConstants {
   static const String login = "Login";
+  static const String logout = "Log out";
   static const String enterEmail = "Enter email";
   static const String enterPassword = "Enter password";
   static const String loginFailed = "Login failed. Please try again.";
