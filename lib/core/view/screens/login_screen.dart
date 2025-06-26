@@ -1,6 +1,5 @@
-import 'dart:developer';
-
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_authentication_app/core/utils/assets_constants.dart';
+import 'package:firebase_authentication_app/core/utils/string_constants.dart';
 import 'package:firebase_authentication_app/core/utils/validator.dart';
 import 'package:firebase_authentication_app/core/viewmodel/auth_viewmodel.dart';
 import 'package:firebase_authentication_app/core/widgets/custom_button_widget.dart';
@@ -49,7 +48,7 @@ class LoginScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "Don't have account?",
+          StringConstants.dontHaveAccount,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -60,7 +59,7 @@ class LoginScreen extends StatelessWidget {
         InkWell(
           onTap: () {},
           child: Text(
-            "Sign up",
+            StringConstants.signUp,
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
@@ -90,7 +89,7 @@ class LoginScreen extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: SvgPicture.asset(
-                    'assets/icons/google_icon.svg',
+                    AssetsConstants.googleIcon,
                     height: 30,
                     width: 30,
                     semanticsLabel: 'Logo',
@@ -107,7 +106,7 @@ class LoginScreen extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: Image.asset(
-                    'assets/image/facebook_icon.png',
+                    AssetsConstants.facebookImage,
                     height: 30,
                     width: 30,
                   ),
@@ -124,7 +123,7 @@ class LoginScreen extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: Image.asset(
-                    'assets/image/twitter_icon.png',
+                    AssetsConstants.twitterImage,
                     height: 30,
                     width: 30,
                   ),
@@ -148,7 +147,7 @@ class LoginScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Text(
-              "Or Continue with",
+              StringConstants.orContinueWith,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
@@ -195,47 +194,26 @@ class LoginScreen extends StatelessWidget {
                     onChanged: provider.validateEmail,
                     showSuccessIcon: provider.isValid,
                     prefixIcon: Icons.person,
-                    hintText: 'Enter email',
+                    hintText: StringConstants.enterEmail,
                   ),
                   const SizedBox(height: 15),
                   CustomPasswordField(
                     controller: provider.passwordController,
                     validator: FormValidators.passwordValidator,
                     onChanged: FormValidators.passwordValidator,
-                    hintText: "Enter password",
+                    hintText: StringConstants.enterPassword,
                     isObscure: provider.isObscure,
                     toggleObscure: provider.toggleObscure,
                   ),
                   SizedBox(height: 30),
                   CustomButton(
-                    text: 'Login',
+                    text: StringConstants.login,
                     onPressed: () async {
                       if (formKey.currentState?.validate() ?? false) {
                         FocusScope.of(parentContext).unfocus();
-                        provider.setLoading(true); // Show loader
-
-                        try {
-                          await FirebaseAuth.instance
-                              .signInWithEmailAndPassword(
-                                email: provider.emailController.text.trim(),
-                                password: provider.passwordController.text
-                                    .trim(),
-                              );
-                          // Optional: navigate to home screen
-                        } catch (e) {
-                          log('Sign In Error: $e');
-                          if (context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Login failed. Please try again.',
-                                ),
-                              ),
-                            );
-                          }
-                        } finally {
-                          provider.setLoading(false); // Hide loader
-                        }
+                        provider.onSignInAction(
+                          () => callBackFunction(context),
+                        );
                       }
                     },
                     isLoading: provider.isLoading,
@@ -245,7 +223,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   Text(
-                    "Forgot your password?",
+                    StringConstants.forgotPassword,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -269,7 +247,7 @@ class LoginScreen extends StatelessWidget {
         end: Alignment.bottomRight,
       ).createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
       child: const Text(
-        "Login",
+        StringConstants.login,
         style: TextStyle(
           fontSize: 40,
           fontWeight: FontWeight.bold,
@@ -277,5 +255,11 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  callBackFunction(BuildContext context) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(StringConstants.loginFailed)));
   }
 }

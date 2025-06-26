@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_authentication_app/core/utils/validator.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +19,25 @@ class Authprovider with ChangeNotifier {
     if (_isValid != current) {
       _isValid = current;
       notifyListeners();
+    }
+  }
+  // Show loader
+
+  onSignInAction(Function? callBack) async {
+    setLoading(true);
+
+    notifyListeners();
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+    } catch (e) {
+      log('Sign In Error: $e');
+      callBack?.call();
+    } finally {
+      setLoading(false); // Hide loader
     }
   }
 

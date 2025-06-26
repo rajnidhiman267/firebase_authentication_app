@@ -26,7 +26,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final gradientColors = (isEnabled && !isLoading)
         ? [const Color(0xFF00C9A7), const Color(0xFF0072FF)]
-        : [Colors.grey.shade400, Colors.grey.shade500];
+        : [Colors.grey.shade100, Colors.grey.shade500];
 
     return GestureDetector(
       onTap: (isEnabled && !isLoading) ? onPressed : null,
@@ -41,35 +41,41 @@ class CustomButton extends StatelessWidget {
             end: Alignment.centerRight,
           ),
           borderRadius: BorderRadius.circular(borderRadius),
-          boxShadow: (isEnabled && !isLoading)
-              ? [
-                  BoxShadow(
-                    color: Colors.grey.withValues(alpha: 0.6),
-                    spreadRadius: 1,
-                    blurRadius: 6,
-                    offset: const Offset(0, 3),
-                  ),
-                ]
-              : [],
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withValues(alpha: 0.6),
+              spreadRadius: 1,
+              blurRadius: 6,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
         alignment: Alignment.center,
-        child: isLoading
-            ? const SizedBox(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (isLoading) ...[
+              Container(
+                margin: EdgeInsets.only(right: 20),
                 height: 24,
                 width: 24,
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                   strokeWidth: 2,
                 ),
-              )
-            : Text(
-                text,
-                style: TextStyle(
-                  color: textColor,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                ),
               ),
+            ],
+
+            Text(
+              text,
+              style: TextStyle(
+                color: textColor,
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
