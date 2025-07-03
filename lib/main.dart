@@ -16,7 +16,12 @@ void main() async {
 
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => Authprovider())],
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => Authprovider(),
+          child: Column(children: [LoginScreen()]),
+        ),
+      ],
       child: MyApp(),
     ),
   );
