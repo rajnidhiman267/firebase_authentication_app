@@ -2,10 +2,11 @@ import 'package:firebase_authentication_app/core/utils/constants/color_constant.
 import 'package:firebase_authentication_app/core/utils/constants/string_constants.dart';
 import 'package:firebase_authentication_app/core/utils/helpers/helper_utils.dart';
 import 'package:firebase_authentication_app/core/utils/validator.dart';
+import 'package:firebase_authentication_app/core/view/screens/signup_screen.dart';
 import 'package:firebase_authentication_app/core/view/widgets/heading_text_widget.dart';
 import 'package:firebase_authentication_app/core/view/widgets/or_widget.dart';
 import 'package:firebase_authentication_app/core/view/widgets/other_auth_options_widget.dart';
-import 'package:firebase_authentication_app/core/viewmodel/auth_viewmodel.dart';
+import 'package:firebase_authentication_app/core/viewmodel/login_provider.dart';
 import 'package:firebase_authentication_app/core/widgets/custom_button_widget.dart';
 import 'package:firebase_authentication_app/core/widgets/custom_password_widget.dart';
 import 'package:firebase_authentication_app/core/widgets/custom_textfield_widget.dart';
@@ -37,7 +38,12 @@ class LoginScreen extends StatelessWidget {
               _otherAuthOptionSection(),
               SizedBox(height: 20),
               RichTextWidget(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignupScreen()),
+                  );
+                },
                 firstText: StringConstants.alreadyHaveAccount,
                 secondText: StringConstants.signUp,
               ),
@@ -49,7 +55,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _otherAuthOptionSection() {
-    return Consumer<Authprovider>(
+    return Consumer<Loginprovider>(
       builder: (context, provider, _) {
         return OtherAuthOptionsWidget(
           isAbsorbing: provider.isLoading,
@@ -78,7 +84,7 @@ class LoginScreen extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 50),
-        child: Consumer<Authprovider>(
+        child: Consumer<Loginprovider>(
           builder: (context, provider, _) {
             return AbsorbPointer(
               absorbing: provider.isLoading,
@@ -109,13 +115,10 @@ class LoginScreen extends StatelessWidget {
                     CustomButton(
                       text: StringConstants.login,
                       onPressed: () async {
-                        if (provider.loginFormKey.currentState?.validate() ??
-                            false) {
-                          FocusScope.of(parentContext).unfocus();
-                          provider.onSignInAction(
-                            () => callBackFunction(context),
-                          );
-                        }
+                        await provider.onSignInAction(
+                          () => callBackFunction(context),
+                          parentContext: parentContext,
+                        );
                       },
                       isLoading: provider.isLoading,
                       isEnabled: !provider.isLoading,

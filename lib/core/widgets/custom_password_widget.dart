@@ -54,7 +54,7 @@ class CustomPasswordField extends StatelessWidget {
             fontSize: 12,
             fontWeight: FontWeight.w400,
           ),
-
+          errorMaxLines: 2,
           errorStyle: const TextStyle(
             color: Colors.red,
             fontWeight: FontWeight.normal,
